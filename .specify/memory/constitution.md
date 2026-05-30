@@ -1,50 +1,55 @@
-# [PROJECT_NAME] Constitution
-<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
+<!--
+Sync Impact Report:
+- Version change: v0.0.0 -> v1.0.0
+- List of modified principles:
+  - [PRINCIPLE_1_NAME] -> Princípio I: Clean Architecture & Separation of Concerns (NON-NEGOTIABLE)
+  - [PRINCIPLE_2_NAME] -> Princípio II: Strict Object-Oriented Design & SOLID (NON-NEGOTIABLE)
+  - [PRINCIPLE_3_NAME] -> Princípio III: Clean Resource Allocation & Scheduling Integrity (NON-NEGOTIABLE)
+  - [PRINCIPLE_4_NAME] -> Princípio IV: Test-Driven Domain-Logic Verification
+  - [PRINCIPLE_5_NAME] -> Princípio V: Java 21 LTS & Spring Boot Architecture Separation
+- Added sections:
+  - Architectural & Technical Constraints
+  - Development & Verification Workflow
+- Removed sections: None
+- Templates requiring updates:
+  - .specify/templates/plan-template.md (✅ aligned)
+  - .specify/templates/spec-template.md (✅ aligned)
+  - .specify/templates/tasks-template.md (✅ aligned)
+- Follow-up TODOs: None
+-->
+
+# Resource Allocation & Management System Constitution
 
 ## Core Principles
 
-### [PRINCIPLE_1_NAME]
-<!-- Example: I. Library-First -->
-[PRINCIPLE_1_DESCRIPTION]
-<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
+### Princípio I: Clean Architecture & Separation of Concerns (NON-NEGOTIABLE)
+The application MUST be structured using Clean Architecture guidelines. Core business logic (entities, values, and use cases) must remain independent of external details like framework (Spring Boot), database (JPA/Hibernate), or UI. Interfaces and adapters must decouple the core domain.
 
-### [PRINCIPLE_2_NAME]
-<!-- Example: II. CLI Interface -->
-[PRINCIPLE_2_DESCRIPTION]
-<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
+### Princípio II: Strict Object-Oriented Design & SOLID (NON-NEGOTIABLE)
+All code must adhere to Object-Oriented Programming (OOP) best practices and SOLID principles. Avoid anemic domain models; encapsulate state and behavior. Follow Single Responsibility, Open/Closed, Liskov Substitution, Interface Segregation, and Dependency Inversion principles.
 
-### [PRINCIPLE_3_NAME]
-<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
-[PRINCIPLE_3_DESCRIPTION]
-<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
+### Princípio III: Clean Resource Allocation & Scheduling Integrity (NON-NEGOTIABLE)
+Resource allocation algorithms, availability rules, and reservation conflicts (e.g., preventing double-booking of laboratories/equipment, handling capacity constraints) must reside strictly within core domain entities as pure Java classes. This ensures all allocation rules are testable in isolation.
 
-### [PRINCIPLE_4_NAME]
-<!-- Example: IV. Integration Testing -->
-[PRINCIPLE_4_DESCRIPTION]
-<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
+### Princípio IV: Test-Driven Domain-Logic Verification
+Unit and integration tests must be written to cover all core domain use cases and rules. Test business logic in isolation without requiring Spring Boot framework context unless verifying integration points (e.g., repository adapters, controllers).
 
-### [PRINCIPLE_5_NAME]
-<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
-[PRINCIPLE_5_DESCRIPTION]
-<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
+### Princípio V: Java 21 LTS & Spring Boot Architecture Separation
+Leverage modern Java 21 features (records, pattern matching, structured concurrency where applicable) and Spring Boot 3+ idioms cleanly, ensuring frameworks are kept strictly at the adapter layer in Clean Architecture.
 
-## [SECTION_2_NAME]
-<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
+## Architectural & Technical Constraints
 
-[SECTION_2_CONTENT]
-<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
+The system must run within a Dev Container using Java 21 LTS, Maven as the build system, and expose port 8080. Database interactions must be abstracted behind repository interfaces defined in the domain layer, implemented in the infrastructure layer using Spring Data JPA.
 
-## [SECTION_3_NAME]
-<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
+## Development & Verification Workflow
 
-[SECTION_3_CONTENT]
-<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
+1. Write unit tests for core domain logic and verify they fail before implementing the logic.
+2. Implement use cases and domain rules in pure Java.
+3. Add Spring Boot infrastructure (controllers, repositories, config) in the outer layers.
+4. Run integration tests on the database/API endpoints to verify end-to-end functionality.
 
 ## Governance
-<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
 
-[GOVERNANCE_RULES]
-<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
+All code modifications must be reviewed for compliance with Clean Architecture and SOLID principles. The complexity of any implementation must be justified. Updates to this constitution require a version bump: major bump for changing core principles, minor bump for additions, and patch bump for clarifications.
 
-**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
-<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
+**Version**: 1.0.0 | **Ratified**: 2026-05-30 | **Last Amended**: 2026-05-30
