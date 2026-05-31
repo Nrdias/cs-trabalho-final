@@ -14,10 +14,12 @@ import java.util.List;
 public class TurmaController {
 
     private final TurmaRepository turmaRepository;
+    private final com.sarc.academic.domain.AlunoTurmaRepository alunoTurmaRepository;
 
     @Autowired
-    public TurmaController(TurmaRepository turmaRepository) {
+    public TurmaController(TurmaRepository turmaRepository, com.sarc.academic.domain.AlunoTurmaRepository alunoTurmaRepository) {
         this.turmaRepository = turmaRepository;
+        this.alunoTurmaRepository = alunoTurmaRepository;
     }
 
     @PostMapping
@@ -44,5 +46,40 @@ public class TurmaController {
     @GetMapping("/professor/{idProfessor}")
     public ResponseEntity<List<Turma>> listarPorProfessor(@PathVariable Long idProfessor) {
         return ResponseEntity.ok(turmaRepository.findByIdProfessor(idProfessor));
+    }
+
+    @PutMapping("/{id}/professores")
+    public ResponseEntity<Turma> vincularProfessor(@PathVariable Long id, @RequestParam("idProfessor") Long idProfessor) {
+        return turmaRepository.findById(id)
+                .map(turma -> {
+                    turma.setIdProfessor(idProfessor);
+                    Turma salva = turmaRepository.save(turma);
+                    return ResponseEntity.ok(salva);
+                })
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @PostMapping("/{id}/alunos")
+    public ResponseEntity<Void> vincularAlunos(@PathVariable Long id, @RequestBody List<Long> idsAlunos) {
+        if (!turmaRepository.existsById(id)) {
+            return ResponseEntity.notFound().build();
+        }
+        idsAlunos.forEach(idAluno -> {
+            com.sarc.academic.domain.AlunoTurma relation = com.sarc.academic.domain.AlunoTurma.builder()
+                    .idAluno(idAluno)
+                    .idTurma(id)
+                    .build();
+            alunoTurmaRepository.save(relation);
+        });
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/aluno/{idAluno}")
+    public ResponseEntity<List<Turma>> listarPorAluno(@PathVariable Long idAluno) {
+        List<Long> idsTurmas = alunoTurmaRepository.findByIdAluno(idAluno).stream()
+                .map(com.sarc.academic.domain.AlunoTurma::getIdTurma)
+                .toList();
+        List<Turma> turmas = turmaRepository.findAllById(idsTurmas);
+        return ResponseEntity.ok(turmas);
     }
 }

@@ -93,7 +93,7 @@
 
 **Goal**: Connect professors (1:N) and students (N:N) to academic classes.
 
-- [ ] T022 [P] [US07] Implement student/professor enrollment endpoints in `backend/sarc-academic-service/src/main/java/com/sarc/academic/adapters/TurmaController.java`
+- [x] T022 [P] [US07] Implement student/professor enrollment endpoints in `backend/sarc-academic-service/src/main/java/com/sarc/academic/adapters/TurmaController.java`
 - [ ] T023 [US07] Build teacher/student class assignment modal in `frontend/sarc-web-react/src/components/ClassEnrollmentModal.tsx`
 
 ---
