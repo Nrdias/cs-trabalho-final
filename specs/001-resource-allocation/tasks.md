@@ -19,7 +19,7 @@
 - [x] T001 Create multi-module Maven parent POM at `backend/pom.xml`
 - [x] T002 Configure local development databases and schemas in `docker-compose.yml`
 - [x] T003 Initialize React frontend project using Vite at `frontend/sarc-web-react/`
-- [ ] T004 Setup initial Keycloak realm import file for SARC client/roles at `infra/keycloak/realm-export.json`
+- [x] T004 Setup initial Keycloak realm import file for SARC client/roles at `infra/keycloak/realm-export.json`
 
 ---
 
