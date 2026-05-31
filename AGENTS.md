@@ -1,6 +1,6 @@
 <!-- SPECKIT START -->
 For additional context about technologies to be used, project structure,
-shell commands, and other important information, read the current plan at [plan.md](file:///Users/natandias/workspace/cs-trabalho-final/specs/001-resource-allocation/plan.md)
+shell commands, and other important information, read the current plan at [plan.md](file:///Users/natandias/workspace/cs-trabalho-final/specs/002-reservations-and-users/plan.md)
 <!-- SPECKIT END -->
 
 # Development Environment

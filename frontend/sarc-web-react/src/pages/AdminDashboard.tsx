@@ -3,6 +3,8 @@ import { useAuth } from '../auth/AuthContext';
 import { ResourceList } from '../components/ResourceList';
 import type { Resource } from '../components/ResourceList';
 import { ResourceForm } from '../components/ResourceForm';
+import { UserManagement } from './UserManagement';
+import { ClassManagement } from './ClassManagement';
 
 interface Booking {
   idReserva: number;
@@ -21,6 +23,7 @@ export const AdminDashboard: React.FC = () => {
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [resources, setResources] = useState<Resource[]>([]);
   const [loadingBookings, setLoadingBookings] = useState(false);
+  const [activeTab, setActiveTab] = useState<'recursos' | 'usuarios' | 'turmas'>('recursos');
 
   const handleResourceAdded = () => {
     setRefreshTrigger((prev) => prev + 1);
@@ -79,80 +82,120 @@ export const AdminDashboard: React.FC = () => {
         </div>
       </header>
 
+      {/* Navigation Tabs */}
+      <div style={styles.tabsContainer}>
+        <button
+          onClick={() => setActiveTab('recursos')}
+          style={{
+            ...styles.tabBtn,
+            borderBottom: activeTab === 'recursos' ? '3px solid #00e676' : '3px solid transparent',
+            color: activeTab === 'recursos' ? '#00e676' : '#b0bec5',
+          }}
+        >
+          Gestão de Recursos
+        </button>
+        <button
+          onClick={() => setActiveTab('usuarios')}
+          style={{
+            ...styles.tabBtn,
+            borderBottom: activeTab === 'usuarios' ? '3px solid #00e676' : '3px solid transparent',
+            color: activeTab === 'usuarios' ? '#00e676' : '#b0bec5',
+          }}
+        >
+          Gestão de Usuários
+        </button>
+        <button
+          onClick={() => setActiveTab('turmas')}
+          style={{
+            ...styles.tabBtn,
+            borderBottom: activeTab === 'turmas' ? '3px solid #00e676' : '3px solid transparent',
+            color: activeTab === 'turmas' ? '#00e676' : '#b0bec5',
+          }}
+        >
+          Organização Acadêmica
+        </button>
+      </div>
+
       <main style={styles.main}>
-        <section style={styles.topSection}>
-          <div style={styles.statsCard}>
-            <h3>Total de Recursos</h3>
-            <p style={styles.statsNum}>{resources.length}</p>
-          </div>
-          <div style={styles.statsCard}>
-            <h3>Reservas Ativas</h3>
-            <p style={styles.statsNum}>{bookings.filter((b) => b.status === 'CONFIRMADA').length}</p>
-          </div>
-          <div style={styles.statsCard}>
-            <h3>Taxa de Ocupação</h3>
-            <p style={styles.statsNum}>
-              {resources.length > 0
-                ? `${Math.round((bookings.filter((b) => b.status === 'CONFIRMADA').length / resources.length) * 100)}%`
-                : '0%'}
-            </p>
-          </div>
-        </section>
+        {activeTab === 'recursos' && (
+          <>
+            <section style={styles.topSection}>
+              <div style={styles.statsCard}>
+                <h3>Total de Recursos</h3>
+                <p style={styles.statsNum}>{resources.length}</p>
+              </div>
+              <div style={styles.statsCard}>
+                <h3>Reservas Ativas</h3>
+                <p style={styles.statsNum}>{bookings.filter((b) => b.status === 'CONFIRMADA').length}</p>
+              </div>
+              <div style={styles.statsCard}>
+                <h3>Taxa de Ocupação</h3>
+                <p style={styles.statsNum}>
+                  {resources.length > 0
+                    ? `${Math.round((bookings.filter((b) => b.status === 'CONFIRMADA').length / resources.length) * 100)}%`
+                    : '0%'}
+                </p>
+              </div>
+            </section>
 
-        <section style={styles.gridSection}>
-          <div style={styles.formContainer}>
-            <ResourceForm onSuccess={handleResourceAdded} />
-          </div>
-          <div style={styles.listContainer}>
-            <ResourceList refreshTrigger={refreshTrigger} />
-          </div>
-        </section>
+            <section style={styles.gridSection}>
+              <div style={styles.formContainer}>
+                <ResourceForm onSuccess={handleResourceAdded} />
+              </div>
+              <div style={styles.listContainer}>
+                <ResourceList refreshTrigger={refreshTrigger} />
+              </div>
+            </section>
 
-        <section style={styles.bookingsSection}>
-          <h3 style={styles.sectionTitle}>Visão Global de Reservas</h3>
-          {loadingBookings ? (
-            <p style={styles.infoText}>Carregando reservas...</p>
-          ) : bookings.length === 0 ? (
-            <p style={styles.infoText}>Nenhuma reserva registrada no sistema.</p>
-          ) : (
-            <div style={styles.tableWrapper}>
-              <table style={styles.table}>
-                <thead>
-                  <tr>
-                    <th style={styles.th}>ID</th>
-                    <th style={styles.th}>Recurso</th>
-                    <th style={styles.th}>Professor</th>
-                    <th style={styles.th}>Turma</th>
-                    <th style={styles.th}>Início</th>
-                    <th style={styles.th}>Fim</th>
-                    <th style={styles.th}>Status</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {bookings.map((booking) => (
-                    <tr key={booking.idReserva} style={styles.tr}>
-                      <td style={styles.td}>#{booking.idReserva}</td>
-                      <td style={styles.td}>{getResourceName(booking.idRecurso)}</td>
-                      <td style={styles.td}>ID Prof: {booking.idProfessor}</td>
-                      <td style={styles.td}>ID Turma: {booking.idTurma}</td>
-                      <td style={styles.td}>{new Date(booking.dataHoraInicio).toLocaleString()}</td>
-                      <td style={styles.td}>{new Date(booking.dataHoraFim).toLocaleString()}</td>
-                      <td style={styles.td}>
-                        <span style={{
-                          ...styles.statusBadge,
-                          backgroundColor: booking.status === 'CONFIRMADA' ? '#00e6761a' : '#ff4d4d1a',
-                          color: booking.status === 'CONFIRMADA' ? '#00e676' : '#ff4d4d',
-                        }}>
-                          {booking.status}
-                        </span>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          )}
-        </section>
+            <section style={styles.bookingsSection}>
+              <h3 style={styles.sectionTitle}>Visão Global de Reservas</h3>
+              {loadingBookings ? (
+                <p style={styles.infoText}>Carregando reservas...</p>
+              ) : bookings.length === 0 ? (
+                <p style={styles.infoText}>Nenhuma reserva registrada no sistema.</p>
+              ) : (
+                <div style={styles.tableWrapper}>
+                  <table style={styles.table}>
+                    <thead>
+                      <tr>
+                        <th style={styles.th}>ID</th>
+                        <th style={styles.th}>Recurso</th>
+                        <th style={styles.th}>Professor</th>
+                        <th style={styles.th}>Turma</th>
+                        <th style={styles.th}>Início</th>
+                        <th style={styles.th}>Fim</th>
+                        <th style={styles.th}>Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {bookings.map((booking) => (
+                        <tr key={booking.idReserva} style={styles.tr}>
+                          <td style={styles.td}>#{booking.idReserva}</td>
+                          <td style={styles.td}>{getResourceName(booking.idRecurso)}</td>
+                          <td style={styles.td}>ID Prof: {booking.idProfessor}</td>
+                          <td style={styles.td}>ID Turma: {booking.idTurma}</td>
+                          <td style={styles.td}>{new Date(booking.dataHoraInicio).toLocaleString()}</td>
+                          <td style={styles.td}>{new Date(booking.dataHoraFim).toLocaleString()}</td>
+                          <td style={styles.td}>
+                            <span style={{
+                              ...styles.statusBadge,
+                              backgroundColor: booking.status === 'CONFIRMADA' ? '#00e6761a' : '#ff4d4d1a',
+                              color: booking.status === 'CONFIRMADA' ? '#00e676' : '#ff4d4d',
+                            }}>
+                              {booking.status}
+                            </span>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+            </section>
+          </>
+        )}
+        {activeTab === 'usuarios' && <UserManagement />}
+        {activeTab === 'turmas' && <ClassManagement />}
       </main>
     </div>
   );
@@ -165,6 +208,22 @@ const styles = {
     color: '#ffffff',
     fontFamily: '"Inter", sans-serif',
     padding: '0 24px 48px 24px',
+  },
+  tabsContainer: {
+    display: 'flex',
+    gap: '24px',
+    borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
+    marginTop: '20px',
+  },
+  tabBtn: {
+    background: 'transparent',
+    border: 'none',
+    padding: '12px 16px',
+    fontSize: '16px',
+    fontWeight: 600,
+    cursor: 'pointer',
+    outline: 'none',
+    transition: 'all 0.2s',
   },
   header: {
     display: 'flex',

@@ -19,21 +19,31 @@ interface MyReservationsProps {
 }
 
 export const MyReservations: React.FC<MyReservationsProps> = ({ refreshTrigger, onCancelSuccess }) => {
-  const { token } = useAuth();
+  const { token, username } = useAuth();
   const [reservas, setReservas] = useState<Reserva[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [localRefresh, setLocalRefresh] = useState(0);
 
-  // Mock professor ID. In a fully integrated flow, this would come from a token claim
-  // or a user endpoint lookup. Since this is frontend US09, we hardcode 1 to match TeacherDashboard.
-  const idProfessorMock = 1;
-
   const fetchReservas = async () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`/api/v1/reservas/professor?idProfessor=${idProfessorMock}`, {
+      // Fetch professor database ID dynamically by email/username
+      const userRes = await fetch(`/api/v1/usuarios/email?email=${username}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      if (!userRes.ok) {
+        setError('Erro ao obter perfil do professor.');
+        setLoading(false);
+        return;
+      }
+
+      const userData = await userRes.json();
+      const idProfessor = userData.idUsuario;
+
+      const res = await fetch(`/api/v1/reservas/professor?idProfessor=${idProfessor}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

@@ -21,7 +21,7 @@ export const BookResourceModal: React.FC<BookResourceModalProps> = ({
   turmaId,
   onSuccess,
 }) => {
-  const { token } = useAuth();
+  const { token, username } = useAuth();
   const [resources, setResources] = useState<Resource[]>([]);
   const [selectedResourceId, setSelectedResourceId] = useState<number | ''>('');
   const [dataInicio, setDataInicio] = useState('');
@@ -29,9 +29,6 @@ export const BookResourceModal: React.FC<BookResourceModalProps> = ({
   const [observacao, setObservacao] = useState('');
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<{ text: string; isError: boolean } | null>(null);
-
-  // hardcoded teacher matching the dashboard
-  const idProfessorMock = 1;
 
   useEffect(() => {
     if (isOpen && token) {
@@ -61,6 +58,20 @@ export const BookResourceModal: React.FC<BookResourceModalProps> = ({
     const formattedFim = new Date(dataFim).toISOString().split('.')[0];
 
     try {
+      // Fetch teacher database ID dynamically by email/username
+      const userRes = await fetch(`/api/v1/usuarios/email?email=${username}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      if (!userRes.ok) {
+        setMessage({ text: 'Erro ao obter perfil do professor.', isError: true });
+        setLoading(false);
+        return;
+      }
+
+      const userData = await userRes.json();
+      const idProfessor = userData.idUsuario;
+
       const res = await fetch('/api/v1/reservas', {
         method: 'POST',
         headers: {
@@ -72,7 +83,7 @@ export const BookResourceModal: React.FC<BookResourceModalProps> = ({
           dataHoraFim: formattedFim,
           idRecurso: Number(selectedResourceId),
           idTurma: turmaId,
-          idProfessor: idProfessorMock,
+          idProfessor: idProfessor,
           observacao,
           status: 'CONFIRMADA',
         }),

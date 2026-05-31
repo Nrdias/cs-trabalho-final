@@ -28,10 +28,21 @@ export const TeacherDashboard: React.FC = () => {
     if (!isProfessor) return;
     setLoading(true);
     try {
-      // Mock teacher ID resolution (normally decoded from keycloak token user claims)
-      // For this implementation, we fetch all classes or search by a default ID/sub mapping
-      const idProfessorMock = 1; 
-      const res = await fetch(`/api/v1/turmas/professor/${idProfessorMock}`, {
+      // Fetch teacher database ID dynamically by email/username
+      const userRes = await fetch(`/api/v1/usuarios/email?email=${username}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      if (!userRes.ok) {
+        setMessage('Erro ao obter perfil do professor.');
+        setLoading(false);
+        return;
+      }
+
+      const userData = await userRes.json();
+      const idProfessor = userData.idUsuario;
+
+      const res = await fetch(`/api/v1/turmas/professor/${idProfessor}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 

@@ -54,6 +54,33 @@ public class UsuarioController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    @GetMapping("/email")
+    public ResponseEntity<Usuario> buscarPorEmail(@RequestParam("email") String email) {
+        return usuarioRepository.findByEmail(email)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> {
+                    Usuario autoCreated = new Usuario();
+                    autoCreated.setEmail(email);
+                    // Capitalize first letter of email for display name
+                    String capitalized = email.substring(0, 1).toUpperCase() + email.substring(1);
+                    autoCreated.setNome(capitalized);
+                    autoCreated.setMatriculaCpf("MC-" + email);
+                    autoCreated.setSenhaHash("auto_generated");
+                    autoCreated.setAtivo(true);
+                    
+                    if (email.toLowerCase().contains("admin")) {
+                        autoCreated.setTipo(com.sarc.user.domain.PerfilUsuario.ADMIN);
+                    } else if (email.toLowerCase().contains("prof") || email.toLowerCase().contains("teacher") || email.toLowerCase().contains("docente")) {
+                        autoCreated.setTipo(com.sarc.user.domain.PerfilUsuario.PROFESSOR);
+                    } else {
+                        autoCreated.setTipo(com.sarc.user.domain.PerfilUsuario.ALUNO);
+                    }
+                    
+                    Usuario saved = usuarioRepository.save(autoCreated);
+                    return ResponseEntity.ok(saved);
+                });
+    }
+
     @PatchMapping("/{id}/status")
     public ResponseEntity<Usuario> alterarStatus(@PathVariable Long id, @RequestParam("ativo") boolean ativo) {
         return usuarioRepository.findById(id)
