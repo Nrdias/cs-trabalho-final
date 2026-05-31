@@ -57,14 +57,17 @@ export const StudentDashboard: React.FC = () => {
           setReservations([]);
         }
       } else {
+        console.error('Academic service response failed:', classRes.status, classRes.statusText);
         setMessage('Erro ao carregar dados acadêmicos.');
       }
-    } catch (e) {
+    } catch (e: any) {
+      console.error('Connection exception inside StudentDashboard:', e.message, e);
       setMessage('Erro de conexão com o servidor.');
     } finally {
       setLoading(false);
     }
   };
+
 
   useEffect(() => {
     if (token) fetchStudentContext();

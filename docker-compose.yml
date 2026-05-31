@@ -35,16 +35,24 @@ services:
   sarc-discovery-server:
     image: eclipse-temurin:21-jre-alpine
     container_name: sarc-discovery-server
+    restart: on-failure
     ports:
       - "8761:8761"
+    volumes:
+      - ./backend/sarc-discovery-server/target/sarc-discovery-server-1.0.0-SNAPSHOT.jar:/app/sarc-discovery-server.jar
+    entrypoint: ["java", "-jar", "/app/sarc-discovery-server.jar"]
     networks:
       - sarc-network
 
   sarc-config-server:
     image: eclipse-temurin:21-jre-alpine
     container_name: sarc-config-server
+    restart: on-failure
     ports:
       - "8888:8888"
+    volumes:
+      - ./backend/sarc-config-server/target/sarc-config-server-1.0.0-SNAPSHOT.jar:/app/sarc-config-server.jar
+    entrypoint: ["java", "-Deureka.client.service-url.defaultZone=http://sarc-discovery-server:8761/eureka/", "-jar", "/app/sarc-config-server.jar"]
     networks:
       - sarc-network
     depends_on:
@@ -53,13 +61,78 @@ services:
   sarc-gateway:
     image: eclipse-temurin:21-jre-alpine
     container_name: sarc-gateway
+    restart: on-failure
     ports:
       - "8080:8080"
+    volumes:
+      - ./backend/sarc-gateway/target/sarc-gateway-1.0.0-SNAPSHOT.jar:/app/sarc-gateway.jar
+    entrypoint: ["java", "-Deureka.client.service-url.defaultZone=http://sarc-discovery-server:8761/eureka/", "-Deureka.instance.prefer-ip-address=true", "-jar", "/app/sarc-gateway.jar"]
     networks:
       - sarc-network
     depends_on:
       - sarc-discovery-server
       - sarc-keycloak
+      - sarc-config-server
+
+  sarc-user-service:
+    image: eclipse-temurin:21-jre-alpine
+    container_name: sarc-user-service
+    restart: on-failure
+    ports:
+      - "8082:8082"
+    volumes:
+      - ./backend/sarc-user-service/target/sarc-user-service-1.0.0-SNAPSHOT.jar:/app/sarc-user-service.jar
+    entrypoint: ["java", "-Dspring.config.import=configserver:http://sarc-config-server:8888", "-Deureka.client.service-url.defaultZone=http://sarc-discovery-server:8761/eureka/", "-Deureka.instance.prefer-ip-address=true", "-jar", "/app/sarc-user-service.jar"]
+    networks:
+      - sarc-network
+    depends_on:
+      - sarc-db
+      - sarc-config-server
+
+  sarc-academic-service:
+    image: eclipse-temurin:21-jre-alpine
+    container_name: sarc-academic-service
+    restart: on-failure
+    ports:
+      - "8085:8085"
+    volumes:
+      - ./backend/sarc-academic-service/target/sarc-academic-service-1.0.0-SNAPSHOT.jar:/app/sarc-academic-service.jar
+    entrypoint: ["java", "-Dspring.config.import=configserver:http://sarc-config-server:8888", "-Deureka.client.service-url.defaultZone=http://sarc-discovery-server:8761/eureka/", "-Deureka.instance.prefer-ip-address=true", "-jar", "/app/sarc-academic-service.jar"]
+    networks:
+      - sarc-network
+    depends_on:
+      - sarc-db
+      - sarc-config-server
+
+  sarc-resource-service:
+    image: eclipse-temurin:21-jre-alpine
+    container_name: sarc-resource-service
+    restart: on-failure
+    ports:
+      - "8083:8083"
+    volumes:
+      - ./backend/sarc-resource-service/target/sarc-resource-service-1.0.0-SNAPSHOT.jar:/app/sarc-resource-service.jar
+    entrypoint: ["java", "-Dspring.config.import=configserver:http://sarc-config-server:8888", "-Deureka.client.service-url.defaultZone=http://sarc-discovery-server:8761/eureka/", "-Deureka.instance.prefer-ip-address=true", "-jar", "/app/sarc-resource-service.jar"]
+    networks:
+      - sarc-network
+    depends_on:
+      - sarc-db
+      - sarc-config-server
+
+  sarc-reservation-service:
+    image: eclipse-temurin:21-jre-alpine
+    container_name: sarc-reservation-service
+    restart: on-failure
+    ports:
+      - "8084:8084"
+    volumes:
+      - ./backend/sarc-reservation-service/target/sarc-reservation-service-1.0.0-SNAPSHOT.jar:/app/sarc-reservation-service.jar
+    entrypoint: ["java", "-Dspring.config.import=configserver:http://sarc-config-server:8888", "-Deureka.client.service-url.defaultZone=http://sarc-discovery-server:8761/eureka/", "-Deureka.instance.prefer-ip-address=true", "-jar", "/app/sarc-reservation-service.jar"]
+    networks:
+      - sarc-network
+    depends_on:
+      - sarc-db
+      - sarc-config-server
 
 volumes:
   sarc_db_data:

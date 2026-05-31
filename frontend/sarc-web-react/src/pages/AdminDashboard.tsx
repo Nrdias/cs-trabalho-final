@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../auth/AuthContext';
+import { ResourceList } from '../components/ResourceList';
+import type { Resource } from '../components/ResourceList';
 import { ResourceForm } from '../components/ResourceForm';
-import { ResourceList, Resource } from '../components/ResourceList';
 
 interface Booking {
   idReserva: number;
