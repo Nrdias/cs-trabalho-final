@@ -75,7 +75,7 @@
 **Goal**: Allow managers to register users.
 
 - [x] T017 [P] [US05] Create Usuario JPA repository and API in `backend/sarc-user-service/src/main/java/com/sarc/user/`
-- [ ] T018 [US05] Build user registration screen in `frontend/sarc-web-react/src/pages/UserManagement.tsx`
+- [x] T018 [US05] Build user registration screen in `frontend/sarc-web-react/src/pages/UserManagement.tsx`
 
 ---
 
