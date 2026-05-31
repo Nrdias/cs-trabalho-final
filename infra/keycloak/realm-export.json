@@ -45,5 +45,58 @@
       "directAccessGrantsEnabled": false,
       "serviceAccountsEnabled": true
     }
+  ],
+  "users": [
+    {
+      "username": "natan.admin",
+      "enabled": true,
+      "email": "natan.admin@sarc.edu",
+      "firstName": "Natan",
+      "lastName": "Admin",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "admin",
+          "temporary": false
+        }
+      ],
+      "realmRoles": [
+        "ADMIN"
+      ]
+    },
+    {
+      "username": "natan.prof",
+      "enabled": true,
+      "email": "natan.prof@sarc.edu",
+      "firstName": "Natan",
+      "lastName": "Professor",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "professor",
+          "temporary": false
+        }
+      ],
+      "realmRoles": [
+        "PROFESSOR"
+      ]
+    },
+    {
+      "username": "natan",
+      "enabled": true,
+      "email": "natan@sarc.edu",
+      "firstName": "Natan",
+      "lastName": "Aluno",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "aluno",
+          "temporary": false
+        }
+      ],
+      "realmRoles": [
+        "ALUNO"
+      ]
+    }
   ]
 }
