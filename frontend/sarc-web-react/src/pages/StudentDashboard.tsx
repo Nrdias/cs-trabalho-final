@@ -32,11 +32,22 @@ export const StudentDashboard: React.FC = () => {
     setLoading(true);
     setMessage(null);
     try {
-      // Mock student ID resolution (e.g. Aluno 1)
-      const idAlunoMock = 1;
+      // Fetch student database ID dynamically by email/username
+      const userRes = await fetch(`/api/v1/usuarios/email?email=${username}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      if (!userRes.ok) {
+        setMessage('Erro ao obter perfil do aluno.');
+        setLoading(false);
+        return;
+      }
+
+      const userData = await userRes.json();
+      const idAluno = userData.idUsuario;
       
       // Get student's enrolled classes from sarc-academic-service
-      const classRes = await fetch(`/api/v1/turmas/aluno/${idAlunoMock}`, {
+      const classRes = await fetch(`/api/v1/turmas/aluno/${idAluno}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
