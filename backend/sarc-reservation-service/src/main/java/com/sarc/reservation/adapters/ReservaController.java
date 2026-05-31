@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import org.springframework.format.annotation.DateTimeFormat;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -46,8 +48,8 @@ public class ReservaController {
     @GetMapping("/professor")
     public ResponseEntity<List<Reserva>> obterReservasProfessor(
             @RequestParam("idProfessor") Long idProfessor,
-            @RequestParam(value = "dataInicio", required = false) org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE_TIME) java.time.LocalDateTime dataInicio,
-            @RequestParam(value = "dataFim", required = false) org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE_TIME) java.time.LocalDateTime dataFim) {
+            @RequestParam(value = "dataInicio", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dataInicio,
+            @RequestParam(value = "dataFim", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dataFim) {
         
         List<Reserva> reservas = reservaRepository.findByIdProfessor(idProfessor);
         
@@ -60,6 +62,7 @@ public class ReservaController {
         
         return ResponseEntity.ok(reservas);
     }
+
 
     @GetMapping("/classes")
     public ResponseEntity<List<Reserva>> obterReservasClasses(@RequestParam("idTurmas") List<Long> idTurmas) {

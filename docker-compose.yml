@@ -33,7 +33,7 @@ services:
       - sarc-db
 
   sarc-discovery-server:
-    image: openjdk:21-slim
+    image: eclipse-temurin:21-jre-alpine
     container_name: sarc-discovery-server
     ports:
       - "8761:8761"
@@ -41,7 +41,7 @@ services:
       - sarc-network
 
   sarc-config-server:
-    image: openjdk:21-slim
+    image: eclipse-temurin:21-jre-alpine
     container_name: sarc-config-server
     ports:
       - "8888:8888"
@@ -51,7 +51,7 @@ services:
       - sarc-discovery-server
 
   sarc-gateway:
-    image: openjdk:21-slim
+    image: eclipse-temurin:21-jre-alpine
     container_name: sarc-gateway
     ports:
       - "8080:8080"
