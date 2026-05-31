@@ -14,11 +14,11 @@ Build the Resource Allocation & Management System (SARC) based on a microservice
 
 **Primary Dependencies**: 
 - Spring Boot 3+, Spring Cloud Gateway, Netflix Eureka Server, Spring Cloud Config Server, Spring Security OAuth2/Resource Server, Spring Data JPA, Lombok.
-- Angular CLI, RxJS, NgRx (optional, for state management), TailwindCSS (if requested, else vanilla CSS).
+- React.js, TypeScript, redux (optional, for state management), TailwindCSS.
 
 **Storage**: PostgreSQL (shared database per ADR-001)
 
-**Testing**: JUnit 5, Mockito, Spring Boot Test, RestAssured (integration tests), Jasmine/Karma (Angular tests)
+**Testing**: JUnit 5, Mockito, Spring Boot Test, RestAssured (integration tests), Jest (React tests)
 
 **Target Platform**: Docker Compose local development environment / OCI cloud deployment
 
@@ -66,11 +66,11 @@ backend/
 ├── sarc-resource-service/    # microservice for RECURSO management
 └── sarc-reservation-service/ # microservice for RESERVA core engine
 frontend/
-└── sarc-web-angular/         # Angular SPA application
+└── sarc-web-react/         # React SPA application
 docker-compose.yml            # Multi-container orchestration
 ```
 
-**Structure Decision**: Multi-project structure separating each microservice module and the Angular frontend application, coordinated by a root Docker Compose.
+**Structure Decision**: Multi-project structure separating each microservice module and the React frontend application, coordinated by a root Docker Compose.
 
 ## Complexity Tracking
 

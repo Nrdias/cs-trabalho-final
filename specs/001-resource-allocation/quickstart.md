@@ -1,15 +1,15 @@
 # Quickstart Guide: Running and Testing SARC
 
-This guide provides instructions to run and test the SARC system (microservices and Angular frontend) locally.
+This guide provides instructions to run and test the SARC system (microservices and React frontend) locally.
 
 ## Prerequisites
 - Docker and Docker Compose
 - Maven (pre-installed in devcontainer)
-- Node.js & npm (for Angular frontend)
+- Node.js & npm (for React frontend)
 
 ## 1. Running the System Locally
 
-To bootstrap all services (Eureka, Config, Gateway, Keycloak, PostgreSQL, Microservices, and the Angular App):
+To bootstrap all services (Eureka, Config, Gateway, Keycloak, PostgreSQL, Microservices, and the React App):
 
 ```bash
 # Build the project first
@@ -23,7 +23,7 @@ docker-compose up --build
 - **Eureka Discovery**: http://localhost:8761
 - **API Gateway**: http://localhost:8080
 - **Keycloak Console**: http://localhost:8080/auth (or corresponding configured port)
-- **Angular Frontend**: http://localhost:4200
+- **React Frontend**: http://localhost:3000
 
 ## 2. Running Automated Tests
 
@@ -40,9 +40,9 @@ mvn test
 ```
 
 ### Front-end tests
-Navigate to the Angular app directory and run:
+Navigate to the React app directory and run:
 ```bash
-cd frontend/sarc-web-angular
+cd frontend/sarc-web-react
 npm run test
 ```
 
@@ -50,6 +50,6 @@ npm run test
 
 1. **Boot the environment** via docker-compose.
 2. **Access Keycloak** to seed initial admin, professor, and student users.
-3. **Log in as Admin** on the Angular dashboard to create resources (laboratories, equipment), semesters, and classes.
+3. **Log in as Admin** on the React dashboard to create resources (laboratories, equipment), semesters, and classes.
 4. **Log in as Professor** to allocate resources for a specific class. Test overlap errors by attempting a double booking.
 5. **Log in as Student** to verify the list of active reservations for their classes is displayed in read-only mode.

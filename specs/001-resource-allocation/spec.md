@@ -14,7 +14,7 @@
 
 - Q: Quais são os perfis de usuários e seus níveis de permissão no sistema? → A: Administrador (gestão total de recursos, usuários, turmas e visão global de reservas), Professor (reserva e cancela recursos para suas turmas, consulta suas reservas), Aluno (consulta simplificada das reservas de suas turmas).
 - Q: Como devem ser resolvidos os conflitos de agendamento/alocação de recursos? → A: Ordem de chegada (First-Come, First-Served) automática.
-- Q: Qual tecnologia/framework será utilizada para o front-end? → A: Angular.
+- Q: Qual tecnologia/framework será utilizada para o front-end? → A: React.
 
 ## User Scenarios & Testing *(mandatory)*
 
@@ -168,8 +168,8 @@ Como aluno, quero ver as reservas restritas ao semestre atual por padrão.
 - **FR-005**: O sistema MUST permitir que professores criem reservas associadas obrigatoriamente a uma turma na qual lecionam (US10).
 - **FR-006**: O sistema MUST restringir a visualização de reservas de alunos estritamente às turmas em que estão matriculados (US13).
 - **FR-007**: O sistema MUST disponibilizar autenticação segura para Administradores, Professores e Alunos (US04, US08, US12).
-- **FR-008**: O back-end MUST expor APIs HTTP REST em JSON para comunicação com o front-end Angular (FR-009).
-- **FR-009**: O front-end MUST ser desenvolvido de forma desacoplada em Angular, consumindo as APIs REST do back-end.
+- **FR-008**: O back-end MUST expor APIs HTTP REST em JSON para comunicação com o front-end React (FR-009).
+- **FR-009**: O front-end MUST ser desenvolvido de forma desacoplada em React, consumindo as APIs REST do back-end.
 
 ### Key Entities
 
@@ -182,13 +182,13 @@ Como aluno, quero ver as reservas restritas ao semestre atual por padrão.
 
 ### Measurable Outcomes
 
-- **SC-001**: O tempo de resposta na busca de disponibilidade de recursos no front-end Angular deve ser inferior a 1.5 segundos.
+- **SC-001**: O tempo de resposta na busca de disponibilidade de recursos no front-end React deve ser inferior a 1.5 segundos.
 - **SC-002**: 100% dos conflitos de horário em reservas de recursos concorrentes devem ser impedidos pelo back-end no nível de domínio.
-- **SC-003**: O front-end Angular e o back-end Java/Spring Boot devem rodar como processos independentes, comunicando-se unicamente via HTTP.
+- **SC-003**: O front-end React e o back-end Java/Spring Boot devem rodar como processos independentes, comunicando-se unicamente via HTTP.
 
 ## Assumptions
 
 - O back-end será desenvolvido em Java 21 utilizando Spring Boot 3+ e Clean Architecture.
-- O front-end será desenvolvido em Angular.
+- O front-end será desenvolvido em React.
 - O banco de dados para persistência será relacional.
 - Concorrência de agendamentos simultâneos será resolvida pelo mecanismo de concorrência no banco de dados com a regra de First-Come, First-Served.
