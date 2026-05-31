@@ -16,8 +16,8 @@
 
 **Purpose**: Project initialization and base build/environment configuration.
 
-- [ ] T001 Create multi-module Maven parent POM at `backend/pom.xml`
-- [ ] T002 Configure local development databases and schemas in `docker-compose.yml`
+- [x] T001 Create multi-module Maven parent POM at `backend/pom.xml`
+- [x] T002 Configure local development databases and schemas in `docker-compose.yml`
 - [ ] T003 Initialize React frontend project using Vite at `frontend/sarc-web-react/`
 - [ ] T004 Setup initial Keycloak realm import file for SARC client/roles at `infra/keycloak/realm-export.json`
 

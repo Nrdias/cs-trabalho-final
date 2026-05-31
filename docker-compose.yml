@@ -1,0 +1,69 @@
+version: '3.8'
+
+services:
+  sarc-db:
+    image: postgres:16-alpine
+    container_name: sarc-db
+    environment:
+      POSTGRES_USER: sarc
+      POSTGRES_PASSWORD: sarc_pass
+      POSTGRES_DB: sarc_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./infra/db/init-schemas.sql:/docker-entrypoint-initdb.d/init-schemas.sql
+      - sarc_db_data:/var/lib/postgresql/data
+    networks:
+      - sarc-network
+
+  sarc-keycloak:
+    image: quay.io/keycloak/keycloak:24.0
+    container_name: sarc-keycloak
+    command: start-dev --import-realm
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+    ports:
+      - "8081:8080"
+    volumes:
+      - ./infra/keycloak:/opt/keycloak/data/import
+    networks:
+      - sarc-network
+    depends_on:
+      - sarc-db
+
+  sarc-discovery-server:
+    image: openjdk:21-slim
+    container_name: sarc-discovery-server
+    ports:
+      - "8761:8761"
+    networks:
+      - sarc-network
+
+  sarc-config-server:
+    image: openjdk:21-slim
+    container_name: sarc-config-server
+    ports:
+      - "8888:8888"
+    networks:
+      - sarc-network
+    depends_on:
+      - sarc-discovery-server
+
+  sarc-gateway:
+    image: openjdk:21-slim
+    container_name: sarc-gateway
+    ports:
+      - "8080:8080"
+    networks:
+      - sarc-network
+    depends_on:
+      - sarc-discovery-server
+      - sarc-keycloak
+
+volumes:
+  sarc_db_data:
+
+networks:
+  sarc-network:
+    driver: bridge
