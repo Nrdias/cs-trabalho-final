@@ -57,7 +57,7 @@
 
 **Goal**: Provide global visibility of all reservations for Admin.
 
-- [ ] T014 [P] [US03] Build query endpoints with filters in `backend/sarc-reservation-service/src/main/java/com/sarc/reservation/adapters/`
+- [x] T014 [P] [US03] Build query endpoints with filters in `backend/sarc-reservation-service/src/main/java/com/sarc/reservation/adapters/`
 - [ ] T015 [US03] Build global reservation tracking dashboard in `frontend/sarc-web-react/src/pages/AdminDashboard.tsx`
 
 ---
