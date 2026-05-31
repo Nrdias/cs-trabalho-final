@@ -66,7 +66,7 @@
 
 **Goal**: Administrator authentication and redirect to dashboard.
 
-- [ ] T016 [US04] Setup OIDC admin role mapping in React inside `frontend/sarc-web-react/src/auth/RequireAdmin.tsx`
+- [x] T016 [US04] Setup OIDC admin role mapping in React inside `frontend/sarc-web-react/src/auth/RequireAdmin.tsx`
 
 ---
 
