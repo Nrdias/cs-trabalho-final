@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../auth/AuthContext';
+import { MyReservations } from '../components/MyReservations';
+import { BookResourceModal } from '../components/BookResourceModal';
 
 interface Turma {
   idTurma: number;
@@ -15,6 +17,10 @@ export const TeacherDashboard: React.FC = () => {
   const [classes, setClasses] = useState<Turma[]>([]);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
+  
+  const [isBookModalOpen, setIsBookModalOpen] = useState(false);
+  const [selectedTurmaId, setSelectedTurmaId] = useState<number | null>(null);
+  const [refreshReservationsTrigger, setRefreshReservationsTrigger] = useState(0);
 
   const isProfessor = roles.includes('PROFESSOR');
 
@@ -45,6 +51,15 @@ export const TeacherDashboard: React.FC = () => {
   useEffect(() => {
     if (token) fetchTeacherClasses();
   }, [token]);
+
+  const handleOpenBookModal = (turmaId: number) => {
+    setSelectedTurmaId(turmaId);
+    setIsBookModalOpen(true);
+  };
+
+  const handleBookSuccess = () => {
+    setRefreshReservationsTrigger((prev) => prev + 1);
+  };
 
   if (!isProfessor) {
     return (
@@ -95,16 +110,30 @@ export const TeacherDashboard: React.FC = () => {
                   <span style={styles.classCode}>{cls.codigo}</span>
                   <h4 style={styles.className}>{cls.nome}</h4>
                   <p style={styles.classPeriod}>🕒 {cls.periodoLetivo}</p>
-                  <button style={styles.bookBtn}>Solicitar Reserva</button>
+                  <button onClick={() => handleOpenBookModal(cls.idTurma)} style={styles.bookBtn}>Solicitar Reserva</button>
                 </div>
               ))}
             </div>
           )}
         </section>
+
+        <section style={styles.section}>
+          <MyReservations refreshTrigger={refreshReservationsTrigger} />
+        </section>
       </main>
+
+      {selectedTurmaId && (
+        <BookResourceModal
+          isOpen={isBookModalOpen}
+          onClose={() => setIsBookModalOpen(false)}
+          turmaId={selectedTurmaId}
+          onSuccess={handleBookSuccess}
+        />
+      )}
     </div>
   );
 };
+
 
 const styles = {
   container: {

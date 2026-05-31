@@ -42,4 +42,75 @@ public class ReservaController {
         }
         return ResponseEntity.ok(reservaRepository.findAll());
     }
+
+    @GetMapping("/professor")
+    public ResponseEntity<List<Reserva>> obterReservasProfessor(
+            @RequestParam("idProfessor") Long idProfessor,
+            @RequestParam(value = "dataInicio", required = false) org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE_TIME) java.time.LocalDateTime dataInicio,
+            @RequestParam(value = "dataFim", required = false) org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE_TIME) java.time.LocalDateTime dataFim) {
+        
+        List<Reserva> reservas = reservaRepository.findByIdProfessor(idProfessor);
+        
+        // Simple logic filter
+        if (dataInicio != null && dataFim != null) {
+            reservas = reservas.stream()
+                .filter(r -> !r.getDataHoraInicio().isBefore(dataInicio) && !r.getDataHoraFim().isAfter(dataFim))
+                .toList();
+        }
+        
+        return ResponseEntity.ok(reservas);
+    }
+
+    @GetMapping("/classes")
+    public ResponseEntity<List<Reserva>> obterReservasClasses(@RequestParam("idTurmas") List<Long> idTurmas) {
+        if (idTurmas == null || idTurmas.isEmpty()) {
+            return ResponseEntity.ok(List.of());
+        }
+        List<Reserva> res = reservaRepository.findAll().stream()
+                .filter(r -> idTurmas.contains(r.getIdTurma()))
+                .toList();
+        return ResponseEntity.ok(res);
+    }
+
+
+    @PostMapping
+    public ResponseEntity<?> criarReserva(@RequestBody Reserva reserva) {
+        if (reserva.getDataHoraInicio() == null || reserva.getDataHoraFim() == null) {
+            return ResponseEntity.badRequest().body("Datas de início e fim são obrigatórias.");
+        }
+        if (!reserva.getDataHoraFim().isAfter(reserva.getDataHoraInicio())) {
+            return ResponseEntity.badRequest().body("A data de término deve ser após a data de início.");
+        }
+        
+        // FCFS rule validation: Check overlap
+        boolean overlap = reservaRepository.hasOverlap(
+                reserva.getIdRecurso(),
+                reserva.getDataHoraInicio(),
+                reserva.getDataHoraFim(),
+                reserva.getIdReserva()
+        );
+        
+        if (overlap) {
+            return ResponseEntity.status(409).body("Conflito de horários: Este recurso já está reservado neste período.");
+        }
+        
+        Reserva nova = reservaRepository.save(reserva);
+        return ResponseEntity.status(201).body(nova);
+    }
+
+    @PutMapping("/{id}/cancelar")
+    public ResponseEntity<?> cancelarReserva(@PathVariable("id") Long id, @RequestParam("idProfessor") Long idProfessor) {
+        return reservaRepository.findById(id)
+                .map(reserva -> {
+                    if (!reserva.getIdProfessor().equals(idProfessor)) {
+                        return ResponseEntity.status(403).body("Apenas o professor proprietário da reserva pode cancelá-la.");
+                    }
+                    reserva.setStatus(com.sarc.reservation.domain.StatusReserva.CANCELADA);
+                    reservaRepository.save(reserva);
+                    return ResponseEntity.ok().build();
+                })
+                .orElse(ResponseEntity.notFound().build());
+    }
 }
+
+

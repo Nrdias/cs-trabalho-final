@@ -16,6 +16,17 @@ public interface ReservaRepository extends JpaRepository<Reserva, Long> {
 
     List<Reserva> findByIdTurma(Long idTurma);
 
+    @Query("SELECT COUNT(r) > 0 FROM Reserva r WHERE r.idRecurso = :idRecurso " +
+           "AND r.status = 'CONFIRMADA' " +
+           "AND r.dataHoraInicio < :dataFim " +
+           "AND r.dataHoraFim > :dataInicio " +
+           "AND (:idReserva IS NULL OR r.idReserva <> :idReserva)")
+    boolean hasOverlap(@Param("idRecurso") Long idRecurso,
+                       @Param("dataInicio") java.time.LocalDateTime dataInicio,
+                       @Param("dataFim") java.time.LocalDateTime dataFim,
+                       @Param("idReserva") Long idReserva);
+
     @Query("SELECT COUNT(r) > 0 FROM Reserva r WHERE r.idRecurso = :idRecurso AND r.status = 'CONFIRMADA' AND r.dataHoraFim > CURRENT_TIMESTAMP")
     boolean existsActiveReservationsForResource(@Param("idRecurso") Long idRecurso);
+
 }

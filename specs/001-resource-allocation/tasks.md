@@ -110,8 +110,8 @@
 
 **Goal**: Teacher-specific booking listings.
 
-- [ ] T025 [P] [US09] Implement filtering logic in `backend/sarc-reservation-service/src/main/java/com/sarc/reservation/adapters/ReservaController.java`
-- [ ] T026 [US09] Build list component in `frontend/sarc-web-react/src/components/MyReservations.tsx`
+- [x] T025 [P] [US09] Implement filtering logic in `backend/sarc-reservation-service/src/main/java/com/sarc/reservation/adapters/ReservaController.java`
+- [x] T026 [US09] Build list component in `frontend/sarc-web-react/src/components/MyReservations.tsx`
 
 ---
 
@@ -119,10 +119,10 @@
 
 **Goal**: Allow booking of resources with scheduling overlap validation (TDD/FCFS validation).
 
-- [ ] T027 [P] [US10] Write failing TDD unit tests for scheduling overlap logic in `backend/sarc-reservation-service/src/test/java/com/sarc/reservation/domain/ReservaTest.java`
-- [ ] T028 [US10] Implement core scheduling overlap checks in domain entity `backend/sarc-reservation-service/src/main/java/com/sarc/reservation/domain/Reserva.java`
-- [ ] T029 [US10] Implement optimistic locking or PG exclusion constraint for FCFS safety in `backend/sarc-reservation-service/src/main/resources/db/migration/V1__init_schemas.sql`
-- [ ] T030 [US10] Build booking reservation scheduler interface in `frontend/sarc-web-react/src/components/BookResourceModal.tsx`
+- [x] T027 [P] [US10] Write failing TDD unit tests for scheduling overlap logic in `backend/sarc-reservation-service/src/test/java/com/sarc/reservation/domain/ReservaTest.java`
+- [x] T028 [US10] Implement core scheduling overlap checks in domain entity `backend/sarc-reservation-service/src/main/java/com/sarc/reservation/domain/Reserva.java`
+- [x] T029 [US10] Implement optimistic locking or PG exclusion constraint for FCFS safety in `backend/sarc-reservation-service/src/main/resources/db/migration/V1__init_schemas.sql`
+- [x] T030 [US10] Build booking reservation scheduler interface in `frontend/sarc-web-react/src/components/BookResourceModal.tsx`
 
 ---
 
@@ -130,8 +130,8 @@
 
 **Goal**: Allow teachers to cancel their own reservations.
 
-- [ ] T031 [P] [US11] Implement cancellation endpoints and owner validation in `backend/sarc-reservation-service/src/main/java/com/sarc/reservation/domain/ReservaService.java`
-- [ ] T032 [US11] Build cancel reservation confirmation modal in `frontend/sarc-web-react/src/components/CancelBookingButton.tsx`
+- [x] T031 [P] [US11] Implement cancellation endpoints and owner validation in `backend/sarc-reservation-service/src/main/java/com/sarc/reservation/domain/ReservaService.java`
+- [x] T032 [US11] Build cancel reservation confirmation modal in `frontend/sarc-web-react/src/components/CancelBookingButton.tsx`
 
 ---
 
@@ -139,7 +139,7 @@
 
 **Goal**: Student login flow and redirect.
 
-- [ ] T033 [US12] Setup student role guards and homepage routing in `frontend/sarc-web-react/src/pages/StudentDashboard.tsx`
+- [x] T033 [US12] Setup student role guards and homepage routing in `frontend/sarc-web-react/src/pages/StudentDashboard.tsx`
 
 ---
 
@@ -147,8 +147,8 @@
 
 **Goal**: Student read-only booking query.
 
-- [ ] T034 [P] [US13] Implement query filters restricting student view to their registered classes in `backend/sarc-reservation-service/src/main/java/com/sarc/reservation/adapters/ReservaController.java`
-- [ ] T035 [US13] Build student read-only schedule calendar in `frontend/sarc-web-react/src/components/StudentSchedule.tsx`
+- [x] T034 [P] [US13] Implement query filters restricting student view to their registered classes in `backend/sarc-reservation-service/src/main/java/com/sarc/reservation/adapters/ReservaController.java`
+- [x] T035 [US13] Build student read-only schedule calendar in `frontend/sarc-web-react/src/components/StudentSchedule.tsx`
 
 ---
 
@@ -156,7 +156,7 @@
 
 **Goal**: Filtering schedule calendar by class/date.
 
-- [ ] T036 [US14] Build multi-select filters in frontend UI at `frontend/sarc-web-react/src/components/FilterBar.tsx`
+- [x] T036 [US14] Build multi-select filters in frontend UI at `frontend/sarc-web-react/src/components/FilterBar.tsx`
 
 ---
 
@@ -164,15 +164,15 @@
 
 **Goal**: Restrict listings to the active semester by default.
 
-- [ ] T037 [P] [US15] Implement default active semester resolver in `backend/sarc-academic-service/src/main/java/com/sarc/academic/domain/SemestreService.java`
-- [ ] T038 [US15] Apply default active semester filtering in React client calendar views in `frontend/sarc-web-react/src/utils/SemesterResolver.ts`
+- [x] T037 [P] [US15] Implement default active semester resolver in `backend/sarc-academic-service/src/main/java/com/sarc/academic/domain/SemestreService.java`
+- [x] T038 [US15] Apply default active semester filtering in React client calendar views in `frontend/sarc-web-react/src/utils/SemesterResolver.ts`
 
 ---
 
 ## Phase 18: Polish & Cross-Cutting Concerns
 
-- [ ] T039 Deploy and run all tests to verify 100% pass rate
-- [ ] T040 Perform end-to-end integration walk-through and complete quickstart.md validation
+- [x] T039 Deploy and run all tests to verify 100% pass rate
+- [x] T040 Perform end-to-end integration walk-through and complete quickstart.md validation
 
 ---
 
