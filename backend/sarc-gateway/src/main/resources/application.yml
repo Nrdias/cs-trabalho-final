@@ -1,0 +1,39 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: sarc-gateway
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+      routes:
+        - id: sarc-user-service
+          uri: lb://sarc-user-service
+          predicates:
+            - Path=/api/v1/usuarios/**
+        - id: sarc-academic-service
+          uri: lb://sarc-academic-service
+          predicates:
+            - Path=/api/v1/semestres/**, /api/v1/turmas/**, /api/v1/alunos/**
+        - id: sarc-resource-service
+          uri: lb://sarc-resource-service
+          predicates:
+            - Path=/api/v1/recursos/**
+        - id: sarc-reservation-service
+          uri: lb://sarc-reservation-service
+          predicates:
+            - Path=/api/v1/reservas/**
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://sarc-keycloak:8080/realms/sarc-realm/protocol/openid-connect/certs
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
