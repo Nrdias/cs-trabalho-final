@@ -49,7 +49,7 @@
 **Goal**: Allow updates and safe deletion of resources when no active bookings exist.
 
 - [x] T012 [P] [US02] Implement resource update/delete validator checks in `backend/sarc-resource-service/src/main/java/com/sarc/resource/domain/RecursoValidator.java`
-- [ ] T013 [US02] Build resource list table and edit/delete actions in `frontend/sarc-web-react/src/components/ResourceList.tsx`
+- [x] T013 [US02] Build resource list table and edit/delete actions in `frontend/sarc-web-react/src/components/ResourceList.tsx`
 
 ---
 
