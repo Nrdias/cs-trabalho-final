@@ -15,10 +15,12 @@ import java.util.List;
 public class RecursoController {
 
     private final RecursoRepository recursoRepository;
+    private final com.sarc.resource.domain.RecursoValidator recursoValidator;
 
     @Autowired
-    public RecursoController(RecursoRepository recursoRepository) {
+    public RecursoController(RecursoRepository recursoRepository, com.sarc.resource.domain.RecursoValidator recursoValidator) {
         this.recursoRepository = recursoRepository;
+        this.recursoValidator = recursoValidator;
     }
 
     @PostMapping
@@ -63,7 +65,9 @@ public class RecursoController {
         if (!recursoRepository.existsById(id)) {
             return ResponseEntity.notFound().build();
         }
-        // TODO: In US02, check if resource has active bookings in the reservation-service
+        if (recursoValidator.hasActiveReservations(id)) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).build(); // Return 409 conflict
+        }
         recursoRepository.deleteById(id);
         return ResponseEntity.noContent().build();
     }
