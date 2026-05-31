@@ -1,0 +1,18 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://sarc-db:5432/sarc_db
+    username: sarc
+    password: sarc_pass
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://sarc-discovery-server:8761/eureka/

@@ -27,8 +27,8 @@
 
 **Purpose**: Core infrastructure that must be complete before any user stories can be implemented.
 
-- [ ] T005 [P] Implement Netflix Eureka Server at `backend/sarc-discovery-server/`
-- [ ] T006 [P] Implement Spring Cloud Config Server at `backend/sarc-config-server/`
+- [x] T005 [P] Implement Netflix Eureka Server at `backend/sarc-discovery-server/`
+- [x] T006 [P] Implement Spring Cloud Config Server at `backend/sarc-config-server/`
 - [ ] T007 Implement Spring Cloud Gateway with Keycloak security at `backend/sarc-gateway/`
 - [ ] T008 [P] Configure security context and client token mapping inside `frontend/sarc-web-react/src/auth/`
 
