@@ -39,7 +39,7 @@
 **Goal**: Enable creation of laboratories and equipment in the catalog.
 
 - [x] T009 [P] [US01] Create Recurso entity, repository and domain rules in `backend/sarc-resource-service/src/main/java/com/sarc/resource/domain/`
-- [ ] T010 [US01] Implement Recurso controllers and API endpoints in `backend/sarc-resource-service/src/main/java/com/sarc/resource/adapters/`
+- [x] T010 [US01] Implement Recurso controllers and API endpoints in `backend/sarc-resource-service/src/main/java/com/sarc/resource/adapters/`
 - [ ] T011 [US01] Build Recurso registration form component in `frontend/sarc-web-react/src/components/ResourceForm.tsx`
 
 ---
