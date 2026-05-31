@@ -83,7 +83,7 @@
 
 **Goal**: Academic semester and class planning.
 
-- [ ] T019 [P] [US06] Create Semestre and Turma entities and services in `backend/sarc-academic-service/src/main/java/com/sarc/academic/domain/`
+- [x] T019 [P] [US06] Create Semestre and Turma entities and services in `backend/sarc-academic-service/src/main/java/com/sarc/academic/domain/`
 - [ ] T020 [US06] Implement endpoints for turmas/semestres in `backend/sarc-academic-service/src/main/java/com/sarc/academic/adapters/`
 - [ ] T021 [US06] Build class list page and creation dialog in `frontend/sarc-web-react/src/pages/ClassManagement.tsx`
 
