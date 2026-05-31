@@ -102,7 +102,7 @@
 
 **Goal**: Login for teachers to manage bookings.
 
-- [ ] T024 [US08] Implement teacher login verification and dashboard routing in `frontend/sarc-web-react/src/pages/TeacherDashboard.tsx`
+- [x] T024 [US08] Implement teacher login verification and dashboard routing in `frontend/sarc-web-react/src/pages/TeacherDashboard.tsx`
 
 ---
 
