@@ -1,0 +1,64 @@
+openapi: 3.0.3
+info:
+  title: SARC Reservation Service
+  version: 1.0.0
+  description: Microserviço para gestão de reservas de recursos acadêmicos.
+paths:
+  /api/v1/reservas:
+    post:
+      summary: Cria uma nova reserva
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReservaRequest'
+      responses:
+        '201':
+          description: Reserva criada com sucesso
+        '409':
+          description: Conflito de agenda no recurso
+    get:
+      summary: Lista reservas com filtros
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id_recurso
+          in: query
+          required: false
+          schema:
+            type: integer
+        - name: data_inicio
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: Sucesso
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    ReservaRequest:
+      type: object
+      required: [id_recurso, id_turma, data_hora_inicio, data_hora_fim]
+      properties:
+        id_recurso:
+          type: integer
+        id_turma:
+          type: integer
+        data_hora_inicio:
+          type: string
+          format: date-time
+        data_hora_fim:
+          type: string
+          format: date-time
+        observacao:
+          type: string
