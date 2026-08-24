@@ -1,81 +1,100 @@
-# SARC - Sistema de Alocação de Recursos e Cadastros
+# SARC - Resource Allocation and Registration System
 
-Este é o projeto **SARC**, estruturado como um ecossistema de microsserviços em Spring Boot + Spring Cloud no backend, com autenticação Keycloak, banco de dados PostgreSQL e um frontend SPA desenvolvido em React.
-
----
-
-## 🚀 Como Executar o Projeto Localmente
-
-### 1. Pré-requisitos
-Certifique-se de possuir instalado em sua máquina:
-* **Docker e Docker Compose**
-* **Node.js** (versão 18 ou superior) com `npm`
+This is the **SARC** project, structured as a microservices ecosystem using Spring Boot + Spring Cloud on the backend, Keycloak authentication, PostgreSQL database, and a React SPA frontend.
 
 ---
 
-### 2. Passo a Passo de Execução
+## 🚀 How to Run the Project Locally
 
-#### Passo 2.1: Compilar o Backend
-Como o Maven local pode não estar no PATH, execute o build compilando dentro de um container Docker temporário:
+### 1. Prerequisites
 
-1. Abra o terminal e navegue até a pasta `backend`:
-   ```bash
-   cd backend
-   ```
-2. Execute o comando de compilação:
-   ```bash
-   docker run -it --rm -v "$PWD":/usr/src/mymaven -v "$HOME/.m2":/root/.m2 -w /usr/src/mymaven maven:3.9-eclipse-temurin-21 mvn clean package -DskipTests
-   ```
+Make sure you have the following installed on your machine:
 
-#### Passo 2.2: Inicializar os Containers de Infraestrutura
-Retorne para a raiz do repositório e inicie os containers via Docker Compose:
+* **Docker and Docker Compose**
+* **Node.js** (version 18 or higher) with `npm`
+
+---
+
+### 2. Step-by-Step Execution Guide
+
+#### Step 2.1: Build the Backend
+
+Since your local Maven might not be in the PATH, run the build inside a temporary Docker container:
+
+1. Open the terminal and navigate to the `backend` folder:
+```bash
+cd backend
+
+```
+
+
+2. Run the compilation command:
+```bash
+docker run -it --rm -v "$PWD":/usr/src/mymaven -v "$HOME/.m2":/root/.m2 -w /usr/src/mymaven maven:3.9-eclipse-temurin-21 mvn clean package -DskipTests
+
+```
+
+
+
+#### Step 2.2: Initialize Infrastructure Containers
+
+Return to the repository root and start the containers via Docker Compose:
+
 ```bash
 cd ..
 docker-compose up -d --build
+
 ```
 
-#### Passo 2.3: Iniciar o Frontend (React)
-Navegue até a pasta do frontend, instale as dependências e inicie o servidor de desenvolvimento:
+#### Step 2.3: Start the Frontend (React)
+
+Navigate to the frontend folder, install dependencies, and start the development server:
+
 ```bash
 cd frontend/sarc-web-react
 npm install
 npm run dev
+
 ```
 
 ---
 
-## 🔗 Links Úteis e Endereços de Acesso
+## 🔗 Useful Links and Access URLs
 
-| Serviço | URL Local | Descrição |
-| :--- | :--- | :--- |
-| 💻 **Frontend Web App** | [http://localhost:5173](http://localhost:5173) | Interface em React para administradores, professores e alunos. |
-| 🛡️ **Keycloak Admin Console** | [http://localhost:8081](http://localhost:8081) | Painel de controle de autenticação do Keycloak (Realm / Usuários / Permissões). |
-| 🔎 **Eureka Discovery Server** | [http://localhost:8761](http://localhost:8761) | Painel de registro dinâmico dos microsserviços. |
-| ⚙️ **Spring Config Server** | [http://localhost:8888](http://localhost:8888) | Servidor central de configurações. |
-| 🚪 **API Gateway** | [http://localhost:8080](http://localhost:8080) | Ponto único de entrada para as APIs de backend. |
+| Service | Local URL | Description |
+| --- | --- | --- |
+| 💻 **Frontend Web App** | [http://localhost:5173](http://localhost:5173) | React interface for administrators, professors, and students. |
+| 🛡️ **Keycloak Admin Console** | [http://localhost:8081](http://localhost:8081) | Keycloak authentication control panel (Realm / Users / Permissions). |
+| 🔎 **Eureka Discovery Server** | [http://localhost:8761](http://localhost:8761) | Microservices dynamic registration dashboard. |
+| ⚙️ **Spring Config Server** | [http://localhost:8888](http://localhost:8888) | Centralized configuration server. |
+| 🚪 **API Gateway** | [http://localhost:8080](http://localhost:8080) | Single entry point for backend APIs. |
 
 ---
 
-## 🔑 Como criar contas para acessar o SARC (Keycloak)
+## 🔑 How to Create Accounts to Access SARC (Keycloak)
 
-O sistema de login da aplicação está associado ao realm do Keycloak chamado `sarc-realm`. Siga as etapas abaixo para criar contas administrativas, de professores ou alunos:
+The application's login system is tied to the Keycloak realm named `sarc-realm`. Follow the steps below to create administrative, professor, or student accounts:
 
-1. Acesse o console do **Keycloak**: [http://localhost:8081](http://localhost:8081)
-2. Faça login com as credenciais do Administrador Geral:
-   * **Usuário**: `admin`
-   * **Senha**: `admin`
-3. No canto superior esquerdo, clique no menu seletor de Realm (onde diz `master`) e selecione o **`sarc-realm`**.
-4. No menu lateral, acesse **Users** (Usuários) e clique em **Add user** (Criar usuário).
-5. Preencha o formulário (ex: usuário `professor1`) e salve.
-6. Na aba **Credentials** (Credenciais):
-   * Clique em **Set password** (Definir senha).
-   * Defina uma senha (ex: `123456`).
-   * **Desmarque** a opção "Temporary" (Temporária).
-   * Salve e confirme.
-7. Na aba **Role mapping** (Mapeamento de papéis):
-   * Clique em **Assign role** (Atribuir papel).
-   * Selecione o papel apropriado:
-     * **`ADMIN`**: Permite gerenciar recursos, semestres, turmas e novos usuários.
-     * **`PROFESSOR`**: Permite reservar salas, laboratórios, equipamentos e cancelar reservas.
-     * **`ALUNO`**: Acesso somente leitura para cronograma e calendário de alocações.
-8. Pronto! Agora você pode usar essa conta para logar no portal web `http://localhost:5173`.
+1. Access the **Keycloak** console: [http://localhost:8081](http://localhost:8081)
+2. Log in using the Master Administrator credentials:
+* **Username**: `admin`
+* **Password**: `admin`
+
+
+3. In the top-left corner, click the realm selector menu (where it says `master`) and select **`sarc-realm`**.
+4. In the side menu, go to **Users** and click **Add user**.
+5. Fill out the form (e.g., username `professor1`) and save.
+6. Under the **Credentials** tab:
+* Click **Set password**.
+* Set a password (e.g., `123456`).
+* **Uncheck** the "Temporary" option.
+* Save and confirm.
+
+
+7. Under the **Role mapping** tab:
+* Click **Assign role**.
+* Select the appropriate role:
+* **`ADMIN`**: Allows managing resources, semesters, classes, and new users.
+* **`PROFESSOR`**: Allows reserving rooms, laboratories, equipment, and canceling reservations.
+* **`ALUNO`**: Read-only access to the schedule and allocation calendar.
+8. You're all set! You can now use this account to log into the web portal at `localhost:5173`
